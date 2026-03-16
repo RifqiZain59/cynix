@@ -7,6 +7,10 @@ abstract class Routes {
   static const PERSETUJUANDEFAULTAPLIKASI = _Paths.PERSETUJUANDEFAULTAPLIKASI;
   static const SMS = _Paths.SMS;
   static const TELPON = _Paths.TELPON;
+  static const PROTECTION = _Paths.PROTECTION;
+  static const PROFILE = _Paths.PROFILE;
+  static const REGISTER = _Paths.REGISTER;
+  static const LOGIN = _Paths.LOGIN;
 }
 
 abstract class _Paths {
@@ -15,4 +19,8 @@ abstract class _Paths {
   static const PERSETUJUANDEFAULTAPLIKASI = '/persetujuandefaultaplikasi';
   static const SMS = '/sms';
   static const TELPON = '/telpon';
+  static const PROTECTION = '/protection';
+  static const PROFILE = '/profile';
+  static const REGISTER = '/register';
+  static const LOGIN = '/login';
 }

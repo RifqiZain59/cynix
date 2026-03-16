@@ -1,11 +1,18 @@
 import 'package:cynix/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../controllers/persetujuandefaultaplikasi_controller.dart';
 
-class PersetujuandefaultaplikasiView
-    extends GetView<PersetujuandefaultaplikasiController> {
-  const PersetujuandefaultaplikasiView({super.key});
+// 1. UBAH DARI GetView MENJADI StatelessWidget
+class PersetujuandefaultaplikasiView extends StatelessWidget {
+  // 2. HAPUS KATA const DI CONSTRUCTOR
+  PersetujuandefaultaplikasiView({super.key});
+
+  // 3. SUNTIKKAN CONTROLLER SECARA MANUAL
+  final PersetujuandefaultaplikasiController controller = Get.put(
+    PersetujuandefaultaplikasiController(),
+  );
 
   void _showExplanationPopup(BuildContext context) {
     Get.dialog(
@@ -161,83 +168,94 @@ class PersetujuandefaultaplikasiView
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE53935).withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.shield_rounded,
-                  size: 100,
-                  color: Color(0xFFE53935),
-                ),
-              ),
-              const SizedBox(height: 40),
-              const Text(
-                'Jadikan Cynix Aplikasi Telepon Utama',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF1E1E1E),
-                  height: 1.2,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Untuk memblokir panggilan spam, penipuan, dan bot AI secara otomatis, Cynix memerlukan izin untuk menjadi aplikasi telepon default di perangkat Anda.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
-              ),
-              const SizedBox(height: 48),
-              SizedBox(
-                width: double.infinity,
-                height: 54,
-                child: ElevatedButton(
-                  onPressed: () => _showExplanationPopup(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFE53935),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE53935).withOpacity(0.1),
+                    shape: BoxShape.circle,
                   ),
-                  child: const Text(
-                    'Tetapkan Sebagai Default',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      letterSpacing: 0.5,
-                    ),
+                  child: const Icon(
+                    Icons.shield_rounded,
+                    size: 100,
+                    color: Color(0xFFE53935),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-
-              TextButton(
-                // PERBAIKAN DI SINI: Gunakan Named Route agar HomeBinding dipanggil
-                onPressed: () => Get.offAllNamed(Routes.HOME),
-                child: const Text(
-                  'Nanti Saja',
+                const SizedBox(height: 40),
+                const Text(
+                  'Jadikan Cynix Aplikasi Telepon Utama',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E1E1E),
+                    height: 1.2,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                const Text(
+                  'Untuk memblokir panggilan spam, penipuan, dan bot AI secara otomatis, Cynix memerlukan izin untuk menjadi aplikasi telepon default di perangkat Anda.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 48),
+                SizedBox(
+                  width: double.infinity,
+                  height: 54,
+                  child: ElevatedButton(
+                    onPressed: () => _showExplanationPopup(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFE53935),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: const Text(
+                      'Tetapkan Sebagai Default',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                TextButton(
+                  onPressed: () => Get.offAllNamed(Routes.HOME),
+                  child: const Text(
+                    'Nanti Saja',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

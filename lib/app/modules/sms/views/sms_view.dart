@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/sms_controller.dart';
+import '../../home/controllers/home_controller.dart'; // Import HomeController untuk cek role
 
-class SmsView extends GetView<SmsController> {
+// Ubah GetView menjadi StatelessWidget biasa
+class SmsView extends StatelessWidget {
   const SmsView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // 1. SOLUSI ERROR: Suntikkan SmsController secara manual di sini
+    final controller = Get.put(SmsController());
+
+    // 2. Ambil HomeController untuk mengecek apakah sudah jadi Default SMS
+    final homeController = Get.find<HomeController>();
+
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
@@ -23,23 +31,109 @@ class SmsView extends GetView<SmsController> {
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: () => controller.fetchAndScanRealSms(),
-          ),
+          // Tombol refresh hanya aktif kalau sudah jadi default SMS
+          Obx(() {
+            if (homeController.protectionLevel.value >= 2) {
+              return IconButton(
+                icon: const Icon(Icons.refresh, color: Colors.white),
+                onPressed: () => controller.fetchAndScanRealSms(),
+              );
+            }
+            return const SizedBox.shrink(); // Sembunyikan jika belum default
+          }),
         ],
       ),
       body: Obx(() {
+        // ============================================================
+        // CEK 1: APAKAH SUDAH JADI DEFAULT SMS? (Level 2)
+        // ============================================================
+        if (homeController.protectionLevel.value < 2) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.lock_person_rounded,
+                      size: 64,
+                      color: Color(0xFFE3434B),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    "Fitur Terkunci",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF0F172A),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    "Jadikan Cynix sebagai aplikasi Default SMS Anda untuk memindai pesan dari penipuan, Pinjol, atau Judol secara otomatis dengan AI.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                      height: 1.5,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      // Memanggil fungsi dari HomeController untuk meminta izin SMS
+                      onPressed: () => homeController.activateSmsBlocking(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF007AFF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: const Text(
+                        "Jadikan Default SMS",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        // ============================================================
+        // CEK 2: JIKA SUDAH DEFAULT, APAKAH SEDANG LOADING?
+        // ============================================================
         if (controller.isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(color: Color(0xFF0F172A)),
           );
         }
 
+        // ============================================================
+        // CEK 3: JIKA KOSONG
+        // ============================================================
         if (controller.messages.isEmpty) {
           return const Center(child: Text("Belum ada pesan masuk di HP Anda."));
         }
 
+        // ============================================================
+        // TAMPILAN UTAMA: DAFTAR SMS
+        // ============================================================
         return ListView.builder(
           padding: const EdgeInsets.all(16),
           itemCount: controller.messages.length,
