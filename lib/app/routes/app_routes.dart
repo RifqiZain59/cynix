@@ -5,10 +5,12 @@ abstract class Routes {
   Routes._();
   static const HOME = _Paths.HOME;
   static const PERSETUJUANDEFAULTAPLIKASI = _Paths.PERSETUJUANDEFAULTAPLIKASI;
+  static const SMS = _Paths.SMS;
 }
 
 abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
   static const PERSETUJUANDEFAULTAPLIKASI = '/persetujuandefaultaplikasi';
+  static const SMS = '/sms';
 }
