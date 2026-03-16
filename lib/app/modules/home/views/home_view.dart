@@ -1,3 +1,4 @@
+import 'package:cynix/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     const backgroundColor = Color(0xFFF5F7FA);
-    const headerColor = Color(0xFF0F172A); // Biru Gelap Navy
+    const headerColor = Color(0xFF0F172A);
     const cardColor = Colors.white;
     const textPrimary = Color(0xFF1E1E1E);
     const textGrey = Color(0xFF757575);
@@ -28,120 +29,82 @@ class HomeView extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ============================================================
-            // HEADER ATAS (Biru Gelap Rata)
+            // HEADER ATAS
             // ============================================================
             Container(
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top + 16,
+                left: 20,
+                right: 20,
                 bottom: 50,
               ),
               decoration: const BoxDecoration(color: headerColor),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 1. Baris Judul & Premium Badge
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        const Text(
-                          'Cynix',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
-                          ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Cynix',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
                         ),
-                        const SizedBox(width: 12),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
+                      ),
+                      const SizedBox(width: 12),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFFFB75E), Color(0xFFED8F03)],
                           ),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFFFB75E), Color(0xFFED8F03)],
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.workspace_premium,
+                              color: Colors.white,
+                              size: 14,
                             ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Row(
-                            children: [
-                              Icon(
-                                Icons.workspace_premium,
+                            SizedBox(width: 4),
+                            Text(
+                              'PREMIUM',
+                              style: TextStyle(
                                 color: Colors.white,
-                                size: 14,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
                               ),
-                              SizedBox(width: 4),
-                              Text(
-                                'PREMIUM',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.person_outline,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // 2. Search Bar (Kotak Abu-abu)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.05),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.search,
-                            color: Colors.white.withOpacity(0.6),
-                            size: 20,
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            'Pencarian berdasarkan nomor',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              fontSize: 14,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.person_outline,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
 
             // ============================================================
-            // 2 KOTAK (TELEPON & SMS) - Overlapping ke Header
+            // 2 KOTAK (TELEPON & SMS)
             // ============================================================
             Transform.translate(
               offset: const Offset(0, -20),
@@ -149,7 +112,7 @@ class HomeView extends GetView<HomeController> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
-                    // Kotak 1: TELEPON (Aktivasi)
+                    // Kotak 1: TELEPON
                     Expanded(
                       child: GestureDetector(
                         onTap: () => controller.activateSpamBlocking(),
@@ -226,7 +189,8 @@ class HomeView extends GetView<HomeController> {
                     // Kotak 2: SMS
                     Expanded(
                       child: GestureDetector(
-                        onTap: () => controller.activateSmsBlocking(),
+                        // PERBAIKAN 2: Gunakan Get.toNamed agar Controller ikut dimuat!
+                        onTap: () => Get.toNamed(Routes.SMS),
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
@@ -310,27 +274,22 @@ class HomeView extends GetView<HomeController> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Obx(() {
-                // Mengambil nilai level (0, 1, 2)
                 int level = controller.protectionLevel.value;
-
-                // Mengatur Teks dan Warna berdasarkan Level
                 String statusText = level == 0
                     ? "Rendah"
                     : level == 1
                     ? "Menengah"
                     : "Aman";
                 Color statusColor = level == 0
-                    ? const Color(0xFFE3434B) // Merah
+                    ? const Color(0xFFE3434B)
                     : level == 1
-                    ? const Color(0xFFFFB75E) // Kuning/Orange
-                    : const Color(0xFF4CAF50); // Hijau
-
+                    ? const Color(0xFFFFB75E)
+                    : const Color(0xFF4CAF50);
                 String descText = level == 0
                     ? 'Aktifkan perlindungan dari panggilan dan pesan\npenipuan.'
                     : level == 1
                     ? 'Satu langkah lagi! Aktifkan perlindungan SMS agar perangkat lebih aman.'
                     : 'Perangkat Anda terlindungi sepenuhnya dari Panggilan & SMS Spam.';
-
                 String btnText = level == 0
                     ? 'Mulai Perlindungan'
                     : level == 1
@@ -364,8 +323,6 @@ class HomeView extends GetView<HomeController> {
                       const SizedBox(height: 12),
                       const Divider(color: Color(0xFFF0F0F0), thickness: 1),
                       const SizedBox(height: 24),
-
-                      // Indikator Meteran Dinamis
                       Center(
                         child: SizedBox(
                           width: 240,
@@ -375,9 +332,7 @@ class HomeView extends GetView<HomeController> {
                             children: [
                               CustomPaint(
                                 size: const Size(240, 120),
-                                painter: GaugePainter(
-                                  level,
-                                ), // Mengirimkan level ke painter
+                                painter: GaugePainter(level),
                               ),
                               Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -395,7 +350,7 @@ class HomeView extends GetView<HomeController> {
                                   Text(
                                     statusText,
                                     style: TextStyle(
-                                      color: statusColor, // Warna teks dinamis
+                                      color: statusColor,
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -407,7 +362,6 @@ class HomeView extends GetView<HomeController> {
                         ),
                       ),
                       const SizedBox(height: 32),
-
                       Center(
                         child: Text(
                           descText,
@@ -421,8 +375,6 @@ class HomeView extends GetView<HomeController> {
                         ),
                       ),
                       const SizedBox(height: 24),
-
-                      // Tombol Aksi Dinamis
                       SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -430,13 +382,10 @@ class HomeView extends GetView<HomeController> {
                           onPressed: level == 2
                               ? null
                               : () {
-                                  // Disable jika sudah Aman
                                   if (level == 0) {
-                                    controller
-                                        .activateSpamBlocking(); // Panggil Role Dialer Telepon
+                                    controller.activateSpamBlocking();
                                   } else if (level == 1) {
-                                    controller
-                                        .activateSmsBlocking(); // Panggil Role Dialer SMS
+                                    controller.activateSmsBlocking();
                                   }
                                 },
                           style: ElevatedButton.styleFrom(
@@ -469,7 +418,7 @@ class HomeView extends GetView<HomeController> {
             const SizedBox(height: 24),
 
             // ============================================================
-            // JUDUL RIWAYAT
+            // LIST RIWAYAT SPAM
             // ============================================================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -491,10 +440,6 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
             ),
-
-            // ============================================================
-            // LIST RIWAYAT SPAM
-            // ============================================================
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
@@ -502,7 +447,6 @@ class HomeView extends GetView<HomeController> {
                     child: CircularProgressIndicator(color: Colors.blue),
                   );
                 }
-
                 if (controller.callLogs.isEmpty) {
                   return const Center(
                     child: Column(
@@ -522,20 +466,17 @@ class HomeView extends GetView<HomeController> {
                     ),
                   );
                 }
-
                 return ListView.builder(
                   padding: const EdgeInsets.only(top: 8, bottom: 20),
                   itemCount: controller.callLogs.length,
                   itemBuilder: (context, index) {
                     final log = controller.callLogs[index];
-
                     final DateTime date = DateTime.fromMillisecondsSinceEpoch(
                       log.timestamp,
                     );
                     final String timeStr =
                         "${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}";
                     final String dateStr = "${date.day}/${date.month}";
-
                     return Container(
                       margin: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -623,11 +564,8 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-// ======================================================================
-// KELAS TAMBAHAN: Meteran Dinamis (CustomPainter)
-// ======================================================================
 class GaugePainter extends CustomPainter {
-  final int level; // 0 = Rendah, 1 = Menengah, 2 = Aman
+  final int level;
   GaugePainter(this.level);
 
   @override
@@ -635,29 +573,22 @@ class GaugePainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height);
     final radius = size.width / 2;
     const strokeWidth = 18.0;
-
-    // Warna Dinamis Berdasarkan Status Level
     Color activeColor = level == 0
-        ? const Color(0xFFE3434B) // Merah
+        ? const Color(0xFFE3434B)
         : level == 1
-        ? const Color(0xFFFFB75E) // Kuning
-        : const Color(0xFF4CAF50); // Hijau
-
+        ? const Color(0xFFFFB75E)
+        : const Color(0xFF4CAF50);
     final paintBg = Paint()
       ..color = const Color(0xFFEEF2F6)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
-
     final paintFg = Paint()
       ..color = activeColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
-
     final rect = Rect.fromCircle(center: center, radius: radius);
-
-    // 1. Segmen Pertama (Pasti terisi / aktif)
     canvas.drawArc(
       rect,
       180 * math.pi / 180,
@@ -665,8 +596,6 @@ class GaugePainter extends CustomPainter {
       false,
       paintFg,
     );
-
-    // 2. Segmen Kedua (Terisi jika level >= 1)
     canvas.drawArc(
       rect,
       240 * math.pi / 180,
@@ -674,8 +603,6 @@ class GaugePainter extends CustomPainter {
       false,
       level >= 1 ? paintFg : paintBg,
     );
-
-    // 3. Segmen Ketiga (Terisi jika level >= 2)
     canvas.drawArc(
       rect,
       310 * math.pi / 180,
@@ -683,24 +610,19 @@ class GaugePainter extends CustomPainter {
       false,
       level >= 2 ? paintFg : paintBg,
     );
-
-    // 4. Posisi Lingkaran Titik bergeser berdasarkan Level
     double endAngle = level == 0
         ? 230.0
         : level == 1
         ? 300.0
         : 360.0;
-
     final dotCenter = Offset(
       center.dx + radius * math.cos(endAngle * math.pi / 180),
       center.dy + radius * math.sin(endAngle * math.pi / 180),
     );
-
     final paintDotBg = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     canvas.drawCircle(dotCenter, strokeWidth * 0.75, paintDotBg);
-
     final paintDot = Paint()
       ..color = activeColor
       ..style = PaintingStyle.fill;
@@ -709,7 +631,6 @@ class GaugePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant GaugePainter oldDelegate) {
-    return oldDelegate.level !=
-        level; // Menggambar ulang HANYA ketika levelnya berubah
+    return oldDelegate.level != level;
   }
 }

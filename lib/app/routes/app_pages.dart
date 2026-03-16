@@ -6,6 +6,8 @@ import '../modules/persetujuandefaultaplikasi/bindings/persetujuandefaultaplikas
 import '../modules/persetujuandefaultaplikasi/views/persetujuandefaultaplikasi_view.dart';
 import '../modules/sms/bindings/sms_binding.dart';
 import '../modules/sms/views/sms_view.dart';
+import '../modules/telpon/bindings/telpon_binding.dart';
+import '../modules/telpon/views/telpon_view.dart';
 
 part 'app_routes.dart';
 
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.SMS,
       page: () => const SmsView(),
       binding: SmsBinding(),
+    ),
+    GetPage(
+      name: _Paths.TELPON,
+      page: () => const TelponView(),
+      binding: TelponBinding(),
     ),
   ];
 }

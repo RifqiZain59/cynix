@@ -6,6 +6,7 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const PERSETUJUANDEFAULTAPLIKASI = _Paths.PERSETUJUANDEFAULTAPLIKASI;
   static const SMS = _Paths.SMS;
+  static const TELPON = _Paths.TELPON;
 }
 
 abstract class _Paths {
@@ -13,4 +14,5 @@ abstract class _Paths {
   static const HOME = '/home';
   static const PERSETUJUANDEFAULTAPLIKASI = '/persetujuandefaultaplikasi';
   static const SMS = '/sms';
+  static const TELPON = '/telpon';
 }
